@@ -90,7 +90,7 @@
 				if (file_exists($file)) {
 					include $file;
 				} else {
-					include "./front/title.php";
+					include "./back/title.php";
 				}
 				?>
 				<!-- title -->
