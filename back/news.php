@@ -1,31 +1,28 @@
 <div style="width:99%; height:87%; margin:auto; overflow:auto; border:#666 1px solid;">
-    <p class="t cent botli">校園映像資料管理</p>
+    <p class="t cent botli">最新消息資料管理</p>
     <form method="post" action="./api/edit.php">
         <table width="100%">
             <tr class="yel">
-                <td width="80%">校園映像資料</td>
+                <td width="80%">最新消息資料</td>
                 <td width="7%">顯示</td>
                 <td width="7%">刪除</td>
-                <td></td>
+
             </tr>
             <?php
-            $total = $DB->count();
-            $div = 3;
-            $pages = ceil($total / $div);
-            $now = $_GET['p'] ?? 1;
-            $start = ($now - 1) * $div;
-            $rows = $DB->all(" limit $start,$div");
-            foreach ($rows as $row) {
-            ?>
+             $total=$DB->count();
+             $div=5;
+             $pages=ceil($total/$div);
+             $now=$_GET['p']??1;
+             $start=($now-1)*$div;
+             $rows = $DB->all(" limit $start,$div");
+             foreach ($rows as $row) {
+             ?>
                 <tr>
                     <td width="80%">
-                        <img src="./img/<?= $row['img']; ?>" style="width:100px;height:68px">
+                        <textarea name="text[]" style="width:90%;height: 60px;"><?= $row['text']; ?></textarea>
                     </td>
                     <td width="7%"><input type="checkbox" name="sh[]" value="<?= $row['id']; ?>" <?= ($row['sh'] == 1) ? 'checked' : ''; ?>></td>
                     <td width="7%"><input type="checkbox" name="del[]" value="<?= $row['id']; ?>"></td>
-                    <td>
-                        <input type="button" value="更新圖片" onclick="op('#cover','#cvr','./modal/upload.php?table=<?= $do; ?>&id=<?= $row['id']; ?>')"><input type="hidden" name="id[]" value="<?= $row['id']; ?>">
-                    </td>
                 </tr>
             <?php
             }
@@ -50,7 +47,7 @@
         <table style="margin-top:40px; width:70%;">
             <tr>
                 <td width="200px">
-                    <input type="button" onclick="op('#cover','#cvr','./modal/<?= $do; ?>.php?table=<?= $do; ?>')" value="新增校園映像資料圖片">
+                    <input type="button" onclick="op('#cover','#cvr','./modal/<?= $do; ?>.php?table=<?= $do; ?>')" value="新增最新消息資料">
                 </td>
                 <td class="cent">
                     <input type="hidden" name="table" value="<?= $do; ?>">
