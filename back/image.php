@@ -10,7 +10,7 @@
             </tr>
             <?php
             $total=$DB->count();
-            $dic=3;
+            $div=3;
             $pages=ceil($total/$div);
             $now=$_GET['p']??1;
             $start=($now-1)*$div;
@@ -37,10 +37,14 @@ if($now>1){
     $prev=$now-1;
     echo "<a href='?do=$do&p=$prev'><</a>";
 }
-for(){
-
+for($i=1;$i<=$pages;$i++){
+$fontsize=($now==$i)?'24px':'16px';
+    echo "<a href='?do=$do&p=$i'style='font-size'>$i</a>";
 }
-if()
+if($now<$pages){
+    $next=$now+1;
+    echo "<a href='?do=$do&p=$next'>></a>";
+}
             ?>
         </div>
         <table style="margin-top:40px; width:70%;">
