@@ -1,6 +1,7 @@
 <?php
 switch ($_GET['table']) {
     case "title":
+        echo "<h3>更新網站標題圖片</h3>";
     case "mvim":
         echo "<h3>更新動畫圖片</h3>";
         break;
