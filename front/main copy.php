@@ -40,11 +40,11 @@
 		</span>
 		<ul class="ssaa" style="list-style-type:decimal;">
 			<?php
-			$news = $News->all(['sh' => 1], " limit 5");
+			$news = $News->all(['sh' => 1], ' limit 5');
 			foreach ($news as $n) {
 				echo "<li>";
 				echo mb_substr($n['text'], 0, 20);
-				echo "<div class='all'style='display:none'>";
+				echo "<div class='all' style='display:none'>";
 				echo $n['text'];
 				echo "</div>";
 				echo "...</li>";
