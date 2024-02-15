@@ -20,37 +20,63 @@
 		</div>
 	</div>
 	<div id="main">
-		<?php $title = $Title->find(['sh' => 1]); ?>
+		<?php
+		$title = $Title->find(['sh' => 1]);
+		?>
 		<a title="<?= $title['text']; ?>" href="./index.php">
-			<div class="ti" style="background:url('./img/<?= $title['img']; ?>'); background-size:cover;"></div><!--標題-->
+			<div class="ti" style="background:url(&#39;./img/<?= $title['img']; ?>&#39;); background-size:cover;"></div><!--標題-->
 		</a>
 		<div id="ms">
 			<div id="lf" style="float:left;">
 				<div id="menuput" class="dbor">
 					<!--主選單放此-->
 					<span class="t botli">主選單區</span>
+					<?php
+					$mainmu = $Menu->all(['sh' => 1, 'menu_id' => 0]);
+					foreach ($mainmu as $main) {
+					?>
+						<div class="mainmu">
+							<a href="<?= $main['href']; ?>" style=" font-size:13px; text-decoration:none;"><?= $main['text']; ?></a>
+							<?php
+							if ($Menu->count(['menu_id' => $main['id']]) > 0) {
+								echo "<div class='mw'>";
+								$subs = $Menu->all(['menu_id' => $main['id']]);
+								foreach ($subs as $sub) {
+									echo "<a href='{$sub['href']}'>";
+									echo "<div class='mainmu2'>";
+									echo $sub['text'];
+									echo "</div>";
+									echo "</a>";
+								}
+								echo "</div>";
+							}
+							?>
+						</div>
+					<?php
+					}
+					?>
 				</div>
 				<div class="dbor" style="margin:3px; width:95%; height:20%; line-height:100px;">
-					<span class="t">進站總人數 :<?= $Total->find(1)['total']; ?></span>
+					<span class="t">進站總人數 : <?= $Total->find(1)['total']; ?>
+					</span>
 				</div>
 			</div>
-			<!-- main -->
+			<!-- ------- -->
 			<?php
 			$do = $_GET['do'] ?? 'main';
 			$file = "./front/{$do}.php";
 			if (file_exists($file)) {
-				include $file;
+				include "$file";
 			} else {
 				include "./front/main.php";
 			}
 			?>
-			<!-- main -->
-			<div id="alt" style="position: absolute; width: 350px; min-height: 100px; word-break:break-all; text-align:justify;  background-color: rgb(255, 255, 204); top: 50px; left: 400px; z-index: 99; display: none; padding: 5px; border: 3px double rgb(255, 153, 0); background-position: initial initial; background-repeat: initial initial;">
-			</div>
+			<!-- ------- -->
+			<div id="alt" style="position: absolute; width: 350px; min-height: 100px; word-break:break-all; text-align:justify;  background-color: rgb(255, 255, 204); top: 50px; left: 400px; z-index: 99; display: none; padding: 5px; border: 3px double rgb(255, 153, 0); background-position: initial initial; background-repeat: initial initial;"></div>
 			<script>
 				$(".sswww").hover(
 					function() {
-						$("#alt").html("" + $(this).children(".all").html() + "").css({
+						$("#alt").html("<pre>" + $(this).children(".all").html() + "</pre>").css({
 							"top": $(this).offset().top - 50
 						})
 						$("#alt").show()
@@ -64,7 +90,16 @@
 			</script>
 			<div class="di di ad" style="height:540px; width:23%; padding:0px; margin-left:22px; float:left; ">
 				<!--右邊-->
-				<button style="width:100%; margin-left:auto; margin-right:auto; margin-top:2px; height:50px;" onclick="location.href='./back.php'">管理登入</button>
+				<?php
+				if(isset($_SESSION['login'])){
+					$url="lo('./back.php')";
+					$str="返回管理";
+				}else{
+					$url="lo('./index.php?do=login')";
+					$str="管理登入";
+				}
+				?>
+				<button style="width:100%; margin-left:auto; margin-right:auto; margin-top:2px; height:50px;" onclick="<?=$url;?>"><?=$str;?></button>
 				<div style="width:89%; height:480px;" class="dbor">
 					<span class="t botli">校園映象區</span>
 					<div class="cent" onclick="pp(1)">
@@ -75,7 +110,7 @@
 					foreach ($imgs as $idx => $img) {
 					?>
 						<div id="ssaa<?= $idx; ?>" class="im cent">
-						<img src="./img/<?=$img['img'];?>" style="width:150px;height:103px;border:3px solid orange;margin:3px">
+							<img src="./img/<?= $img['img']; ?>" style="width:150px;height:103px;border:3px solid orange;margin:3px">
 						</div>
 					<?php
 					}
@@ -84,15 +119,15 @@
 						<img src="./icon/dn.jpg" alt="">
 					</div>
 					<script>
-						var nowpage = 1,
-							num = <?=$Image->count(['sh'=>1]);?>;
+						var nowpage = 1
+						var num = <?= $Image->count(['sh' => 1]); ?>;
 
 						function pp(x) {
 							var s, t;
 							if (x == 1 && nowpage - 1 >= 0) {
 								nowpage--;
 							}
-							if (x == 2 && nowpage<(num-3)) {
+							if (x == 2 && nowpage < (num - 3)) {
 								nowpage++;
 							}
 							$(".im").hide()
@@ -100,7 +135,6 @@
 								t = s * 1 + nowpage * 1;
 								$("#ssaa" + t).show()
 							}
-							console.log(nowpage);
 						}
 						pp(1)
 					</script>
