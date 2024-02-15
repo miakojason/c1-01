@@ -35,24 +35,24 @@
 					?>
 						<div class="mainmu">
 							<a href="<?= $main['href']; ?>" style="color:black; text-decoration:none;"><?= $main['text']; ?></a>
-						<?php
-						if ($Menu->count(['menu_id' => $main['id']]) > 0) {
-							echo "<div class='mw'>";
-							$subs = $Menu->all(['menu_id' => $main['id']]);
-							foreach ($subs as $sub) {
-								echo "<a href='{$sub['href']}'>";
-								echo "<div class='mainmu2'>";
-								echo $sub['text'];
+							<?php
+							if ($Menu->count(['menu_id' => $main['id']]) > 0) {
+								echo "<div class='mw'>";
+								$subs = $Menu->all(['menu_id' => $main['id']]);
+								foreach ($subs as $sub) {
+									echo "<a href='{$sub['href']}'>";
+									echo "<div class='mainmu2'>";
+									echo $sub['text'];
+									echo "</div>";
+									echo "</a>";
+								}
 								echo "</div>";
-								echo "</a>";
 							}
-							echo "</div>";
-						}
-						?>
+							?>
 						</div>
-						<?php
+					<?php
 					}
-						?>
+					?>
 				</div>
 				<div class="dbor" style="margin:3px; width:95%; height:20%; line-height:100px;">
 					<span class="t">進站總人數 :<?= $Total->find(1)['total']; ?></span>
@@ -88,7 +88,16 @@
 			</script>
 			<div class="di di ad" style="height:540px; width:23%; padding:0px; margin-left:22px; float:left; ">
 				<!--右邊-->
-				<button style="width:100%; margin-left:auto; margin-right:auto; margin-top:2px; height:50px;" onclick="location.href='./back.php'">管理登入</button>
+				<?php
+				if (isset($_SESSION['login'])) {
+					$url = "lo('./back.php')";
+					$str = "返回管理";
+				} else {
+					$url = "lo('./index.php?do=login')";
+					$str = "管理登入";
+				}
+				?>
+				<button style="width:100%; margin-left:auto; margin-right:auto; margin-top:2px; height:50px;" onclick="<?= $url; ?>"><?= $str; ?></button>
 				<div style="width:89%; height:480px;" class="dbor">
 					<span class="t botli">校園映象區</span>
 					<div class="cent" onclick="pp(1)">
